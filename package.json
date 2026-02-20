@@ -1,0 +1,24 @@
+{
+  "name": "womens-fashion-ecommerce",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "db:setup": "node database/setup.js",
+    "db:seed": "node database/seed.js",
+    "check-admin": "node database/check-admin.js",
+    "fix-order-status": "node database/fix-order-status.js",
+    "update-images": "node database/update-product-images.js",
+    "check-images": "node database/check-product-images.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express-session": "^1.17.3",
+    "razorpay": "^2.9.2",
+    "crypto": "^1.0.1",
+    "multer": "^1.4.5-lts.1"
+  }
+}

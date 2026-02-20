@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/index.html" class="nav-item">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="/admin/categories.html" class="nav-item">
+                    <span>📁</span> Categories
+                </a>
+                <a href="/admin/products.html" class="nav-item">
+                    <span>📦</span> Products
+                </a>
+                <a href="/admin/orders.html" class="nav-item active">
+                    <span>🛒</span> Orders
+                </a>
+                <a href="/admin/customers.html" class="nav-item">
+                    <span>👥</span> Customers
+                </a>
+                <a href="/" class="nav-item" style="margin-top: auto;">
+                    <span>🏠</span> Back to Store
+                </a>
+                <a href="#" onclick="logout()" class="nav-item">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Orders Management</h1>
+            </header>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by customer or order ID...">
+                </div>
+                <div class="filter-group">
+                    <select id="paymentStatusFilter" class="form-control">
+                        <option value="">All Payment Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Failed">Failed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="orderStatusFilter" class="form-control">
+                        <option value="">All Order Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="loadOrders()">Apply Filters</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div id="orderDetails"></div>
+        </div>
+    </div>
+
+    <script src="/js/admin/orders.js"></script>
+</body>
+</html>

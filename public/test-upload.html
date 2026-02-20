@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #ddd;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        .upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Image Upload System</h1>
+        
+        <div class="info">
+            <strong>Note:</strong> You must be logged in as admin to test uploads.
+            <br>Login at: <a href="/login.html">/login.html</a>
+            <br>Admin: admin@example.com / admin123
+        </div>
+
+        <div class="upload-section">
+            <h2>Upload Test</h2>
+            <p>Select an image file (JPG, PNG, WEBP - max 2MB)</p>
+            
+            <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp">
+            <br><br>
+            <button onclick="testUpload()">📤 Upload to Temp Folder</button>
+        </div>
+
+        <div id="result"></div>
+
+        <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 4px;">
+            <h3>What This Tests:</h3>
+            <ul>
+                <li>✅ Upload endpoint is accessible</li>
+                <li>✅ Multer is working</li>
+                <li>✅ File validation is working</li>
+                <li>✅ Files are saved to temp folder</li>
+                <li>✅ Correct response format</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function testUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const resultDiv = document.getElementById('result');
+            
+            if (!file) {
+                resultDiv.innerHTML = '<p class="error">❌ Please select a file first</p>';
+                return;
+            }
+
+            // Validate file size
+            if (file.size > 2 * 1024 * 1024) {
+                resultDiv.innerHTML = '<p class="error">❌ File too large. Max 2MB allowed.</p>';
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                resultDiv.innerHTML = '<p class="error">❌ Invalid file type. Use JPG, PNG, or WEBP.</p>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<p>⏳ Uploading...</p>';
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('productId', 'temp');
+
+            try {
+                console.log('Uploading file:', file.name, 'Size:', file.size, 'Type:', file.type);
+                
+                const response = await fetch('/api/upload/product-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                
+                const result = await response.json();
+                console.log('Upload result:', result);
+
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <p class="success">✅ Upload Successful!</p>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                        <div style="margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 4px;">
+                            <strong>Next Steps:</strong>
+                            <ol>
+                                <li>Check if file exists: <code>dir public\\images\\products\\temp</code></li>
+                                <li>Go to Admin Panel → Products</li>
+                                <li>Create a product and the image will be migrated</li>
+                            </ol>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p class="error">❌ Upload Failed</p>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Error: ${error.message}</p>
+                    <p>Check browser console for details.</p>
+                `;
+            }
+        }
+
+        // Check if logged in
+        fetch('/api/auth/status')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.authenticated || data.role !== 'admin') {
+                    document.querySelector('.info').innerHTML = `
+                        <strong style="color: #f44336;">⚠️ Warning:</strong> You are not logged in as admin.
+                        <br>Please <a href="/login.html">login as admin</a> first.
+                        <br>Admin: admin@example.com / admin123
+                    `;
+                    document.querySelector('.info').style.background = '#ffebee';
+                } else {
+                    document.querySelector('.info').innerHTML = `
+                        <strong style="color: #4CAF50;">✅ Logged in as admin</strong>
+                        <br>You can now test the upload system.
+                    `;
+                    document.querySelector('.info').style.background = '#e8f5e9';
+                }
+            })
+            .catch(err => {
+                console.error('Auth check failed:', err);
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Fashion Store</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/index.html" class="nav-item active">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="/admin/categories.html" class="nav-item">
+                    <span>📁</span> Categories
+                </a>
+                <a href="/admin/products.html" class="nav-item">
+                    <span>📦</span> Products
+                </a>
+                <a href="/admin/orders.html" class="nav-item">
+                    <span>🛒</span> Orders
+                </a>
+                <a href="/admin/customers.html" class="nav-item">
+                    <span>👥</span> Customers
+                </a>
+                <a href="/" class="nav-item" style="margin-top: auto;">
+                    <span>🏠</span> Back to Store
+                </a>
+                <a href="#" onclick="logout()" class="nav-item">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Dashboard</h1>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <h3 id="totalProducts">0</h3>
+                        <p>Total Products</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-info">
+                        <h3 id="totalOrders">0</h3>
+                        <p>Total Orders</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">₹0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3 id="pendingOrders">0</h3>
+                        <p>Pending Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-sections">
+                <section class="dashboard-section">
+                    <h2>Low Stock Alert</h2>
+                    <div id="lowStockAlert" class="alert-box"></div>
+                </section>
+
+                <section class="dashboard-section">
+                    <h2>Recent Orders</h2>
+                    <div class="table-container">
+                        <table id="recentOrdersTable">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrders"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/admin/dashboard.js"></script>
+</body>
+</html>

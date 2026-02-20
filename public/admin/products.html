@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/index.html" class="nav-item">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="/admin/categories.html" class="nav-item">
+                    <span>📁</span> Categories
+                </a>
+                <a href="/admin/products.html" class="nav-item active">
+                    <span>📦</span> Products
+                </a>
+                <a href="/admin/orders.html" class="nav-item">
+                    <span>🛒</span> Orders
+                </a>
+                <a href="/admin/customers.html" class="nav-item">
+                    <span>👥</span> Customers
+                </a>
+                <a href="/" class="nav-item" style="margin-top: auto;">
+                    <span>🏠</span> Back to Store
+                </a>
+                <a href="#" onclick="logout()" class="nav-item">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Products Management</h1>
+                <button class="btn btn-primary" onclick="openAddProductModal()">+ Add Product</button>
+            </header>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search products...">
+                </div>
+                <div class="filter-group">
+                    <select id="categoryFilter" class="form-control">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="loadProducts()">Apply Filters</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Stock</th>
+                            <th>Images</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Product</h2>
+                <button class="close-modal" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="productCategory" class="form-control" required></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Price *</label>
+                    <input type="number" id="productPrice" class="form-control" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Price</label>
+                    <input type="number" id="productDiscountPrice" class="form-control" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label>Fabric</label>
+                    <input type="text" id="productFabric" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Care Instructions</label>
+                    <textarea id="productCare" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Size Variants</label>
+                    <div id="variantsContainer">
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 10px;">
+                            <div><strong>Size</strong></div>
+                            <div><strong>Stock Quantity</strong></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 5px;">
+                            <div>S</div>
+                            <input type="number" id="stockS" class="form-control" value="0" min="0">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 5px;">
+                            <div>M</div>
+                            <input type="number" id="stockM" class="form-control" value="0" min="0">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 5px;">
+                            <div>L</div>
+                            <input type="number" id="stockL" class="form-control" value="0" min="0">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+                            <div>XL</div>
+                            <input type="number" id="stockXL" class="form-control" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Images *</label>
+                    <input type="file" id="imageFiles" class="form-control" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
+                    <small style="color: #666; font-size: 0.85rem;">
+                        Allowed: JPG, JPEG, PNG, WEBP | Max size: 2MB per image | Max 5 images
+                    </small>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="uploadProductImages()" style="margin-top: 8px;">
+                        📤 Upload Images
+                    </button>
+                    
+                    <!-- Upload Progress -->
+                    <div id="uploadProgress" style="margin-top: 10px; display: none;">
+                        <div style="background: #e0e0e0; border-radius: 4px; overflow: hidden; height: 24px;">
+                            <div id="progressBar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.85rem; font-weight: 500;"></div>
+                        </div>
+                        <span id="progressText" style="font-size: 0.9rem; color: #666; margin-top: 5px; display: block;"></span>
+                    </div>
+                    
+                    <!-- Images List -->
+                    <div id="imagesList" style="margin-top: 15px;"></div>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/admin/products.js"></script>
+</body>
+</html>

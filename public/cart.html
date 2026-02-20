@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Women's Fashion Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Fashion Store</a>
+            <div class="nav-links">
+                <a href="/shop.html">Shop</a>
+                <a href="/cart.html">Cart</a>
+                <a href="/login.html" id="authLink">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        
+        <div class="cart-layout">
+            <div class="cart-items" id="cartItems"></div>
+            
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0</span>
+                </div>
+                <button onclick="proceedToCheckout()" class="btn-primary btn-large">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/cart.js"></script>
+    <script src="/js/auth-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/index.html" class="nav-item">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="/admin/categories.html" class="nav-item">
+                    <span>📁</span> Categories
+                </a>
+                <a href="/admin/products.html" class="nav-item">
+                    <span>📦</span> Products
+                </a>
+                <a href="/admin/orders.html" class="nav-item">
+                    <span>🛒</span> Orders
+                </a>
+                <a href="/admin/customers.html" class="nav-item active">
+                    <span>👥</span> Customers
+                </a>
+                <a href="/" class="nav-item" style="margin-top: auto;">
+                    <span>🏠</span> Back to Store
+                </a>
+                <a href="#" onclick="logout()" class="nav-item">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Customers Management</h1>
+            </header>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, email, or phone..." onkeyup="loadCustomers()">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Orders</th>
+                            <th>Total Spent</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Customer Details Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Customer Details</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="customerDetails"></div>
+        </div>
+    </div>
+
+    <script src="/js/admin/customers.js"></script>
+</body>
+</html>

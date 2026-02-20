@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Women's Fashion Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Fashion Store</a>
+            <div class="nav-links">
+                <a href="/shop.html">Shop</a>
+                <a href="/cart.html">Cart</a>
+                <a href="/login.html" id="authLink">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="mock-mode-banner">
+            🔧 Development Mode: Using Mock Payment System (No real payment required)
+        </div>
+        
+        <h1>Checkout</h1>
+        
+        <div class="checkout-layout">
+            <div class="checkout-form">
+                <h2>Shipping Address</h2>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Address Line 1</label>
+                        <input type="text" id="address1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Address Line 2 (Optional)</label>
+                        <input type="text" id="address2">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" id="state" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>PIN Code</label>
+                            <input type="text" id="pincode" pattern="[0-9]{6}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" id="country" value="India" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="order-summary-box">
+                <h2>Order Summary</h2>
+                <div id="orderItems"></div>
+                
+                <div class="summary-totals">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>FREE</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total:</span>
+                        <span id="total">₹0</span>
+                    </div>
+                </div>
+                
+                <button onclick="proceedToPayment()" class="btn-primary btn-large" id="payButton">
+                    Pay via UPI
+                </button>
+                
+                <div class="payment-info">
+                    <p>✓ Secure UPI Payment</p>
+                    <p>✓ Google Pay / PhonePe / UPI</p>
+                    <p>✓ 100% Safe & Secure</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/checkout-mock.js"></script>
+    <script src="/js/auth-check.js"></script>
+</body>
+</html>

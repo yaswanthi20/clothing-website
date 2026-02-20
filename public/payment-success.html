@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Women's Fashion Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .success-container {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+            color: white;
+        }
+        .success-container h1 {
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        .order-details {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .order-details p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        .order-id {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d4a5a5;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Fashion Store</a>
+            <div class="nav-links">
+                <a href="/shop.html">Shop</a>
+                <a href="/cart.html">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">✓</div>
+            <h1>Payment Successful!</h1>
+            <p>Thank you for your purchase. Your order has been confirmed.</p>
+            
+            <div class="order-details">
+                <p>Order ID: <span class="order-id" id="orderId">Loading...</span></p>
+                <p>Payment Status: <strong style="color: #4caf50;">Paid</strong></p>
+                <p>Order Status: <strong>Processing</strong></p>
+            </div>
+            
+            <p>You will receive an order confirmation shortly.</p>
+            <p>Your order will be shipped within 2-3 business days.</p>
+            
+            <div class="action-buttons">
+                <a href="/shop.html" class="btn-primary">Continue Shopping</a>
+                <a href="/" class="btn-primary" style="background: #666;">Go to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        
+        if (orderId) {
+            document.getElementById('orderId').textContent = `#${orderId}`;
+        } else {
+            document.getElementById('orderId').textContent = 'N/A';
+        }
+    </script>
+    <script src="/js/auth-check.js"></script>
+</body>
+</html>
